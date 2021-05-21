@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^9.0.2",
+    "moment-timezone": "^0.5.33",
+    "mongoose": "^5.12.10",
+    "wokcommands": "^1.3.5"
+  }
+}
