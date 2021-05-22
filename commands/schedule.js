@@ -4,10 +4,37 @@ const schMessages = require('../models/schMessages.js')
 
 module.exports = {
     expectedArgs: '<channel tag> <YYYY/MM/DD> <HH:mm> <"AM" or "PM"> <Timezone>',
-    minArgs:5,
+    minArgs:5,    
     maxArgs:5,
-    init: () => {},
-    callback: ({message, args}) => {
+    init: (client) => { 
+        const checkForPosts = async () => {
+            const query= {
+                date: {
+                    $lte: Date.now()
+                }
+            }
+            console.log('hello')
+            const results = await schMessages.find(query)
+            for(const post of results){
+                const {guildId, channelId, content} = post
+                console.log(guildId, channelId, content)
+                const guild = await client.guilds.fetch(guildId)
+                if(!guild){
+                    continue
+                }
+                const channel = guild.channels.cache.get(channelId)
+                if(!channel){
+                    continue
+                }
+                channel.send(content)
+            }
+
+            await schMessages.deleteMany(query)
+            setTimeout(checkForPosts, 10000);
+        } 
+        checkForPosts()
+    },
+    callback: async ({message, args}) => {
         const {mentions, guild, channel} = message
         const targetChannel = mentions.channels.first()
         if(!targetChannel){
@@ -51,12 +78,14 @@ module.exports = {
                 return
             }
             message.reply("Your message has been scheduled")
-
+            const x=collectedMessage.content
+            const y=guild.id
+            const z=targetChannel.id
             await new schMessages({
                 date:targetDate.valueOf(),
-                content: collectedMessage.content,
-                guildID: guild.id,
-                channelID: targetChannel.id
+                content: x,  
+                guildID: y,
+                channelID: z
             }).save()
         })
     }

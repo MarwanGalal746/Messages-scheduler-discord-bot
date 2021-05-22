@@ -8,13 +8,22 @@ const reqStr = {
 const schMessages = new mongoose.Schema({
     date: {
         type:Date,
-        required: true
+        //
     },
-    content: reqStr,
-    guildId: reqStr,
-    channelId: reqStr
+    content: {
+        type: String,
+        //
+    },
+    guildId: {
+        type: String,
+        //
+    },
+    channelId: {
+        type: String,
+        //
+    }
 })
 
-const name = 'scheduled messages'
+const name = 'scheduled-messages'
 
 module.exports = mongoose.model[name] ||mongoose.model(name, schMessages, name)
