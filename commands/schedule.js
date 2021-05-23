@@ -13,7 +13,7 @@ module.exports = {
                     $lte: Date.now()
                 }
             }
-            console.log('hello')
+            //console.log('hello')
             const results = await schMessages.find(query)
             for(const post of results){
                 const {guildId, channelId, content} = post
@@ -78,14 +78,13 @@ module.exports = {
                 return
             }
             message.reply("Your message has been scheduled")
-            const x=collectedMessage.content
-            const y=guild.id
-            const z=targetChannel.id
+            console.log(collectedMessage.content,guild.id.length,targetChannel.id, typeof(targetChannel.id))
             await new schMessages({
                 date:targetDate.valueOf(),
-                content: x,  
-                guildID: y,
-                channelID: z
+                content: collectedMessage.content,  
+                guildID: guild.id,
+                channelID: targetChannel.id,
+                hello:'hello'
             }).save()
         })
     }

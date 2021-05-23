@@ -8,19 +8,14 @@ const reqStr = {
 const schMessages = new mongoose.Schema({
     date: {
         type:Date,
-        //
+        required: true
     },
-    content: {
-        type: String,
-        //
-    },
-    guildId: {
-        type: String,
-        //
-    },
-    channelId: {
-        type: String,
-        //
+    content: reqStr,
+    guildId: reqStr,
+    channelId: reqStr,
+    hello: {
+        type:String,
+        required:true
     }
 })
 
