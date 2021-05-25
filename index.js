@@ -10,7 +10,6 @@ client.on('ready', () => {
         showWarns: false
     }).setMongoPath(process.env.MONGO_URI)
 })
-
 client.login(process.env.TOKEN)
 
 
