@@ -66,13 +66,13 @@ module.exports = {
         args.shift()
         const [date, time, clockType, timeZone, rep] = args
         if(clockType!=='AM'  &&  clockType!=='PM') {
-            message.reply(`Please provide either "AM" or "PM" .`)
+            message.reply(`Please provide either "AM" or "PM", I suggest you write !help to learn how to use the bot.`)
             return
         }
 
         const validTZs = momentTimezone.tz.names()
         if(!validTZs.includes(timeZone)){
-            message.reply("Please provide known timezone.")
+            message.reply("Please provide known timezone, I suggest you write !help to learn how to use the bot..")
             return
         }
 
@@ -82,11 +82,11 @@ module.exports = {
             timeZone
         )
         if(targetDate<Date.now()){
-            message.reply("This date is in the past, please enter a future date.")
+            message.reply("This date was in the past, I suggest you write !help to learn how to use the bot..")
             return
         }
         if(rep!=='no' && rep!=='daily'){    
-            message.reply('Please enter a valid value, I recommend to type !help to ')
+            message.reply('Please enter a valid value, I suggest you write !help to learn how to use the bot.')
             return
         }
 
@@ -94,7 +94,7 @@ module.exports = {
             return m.author.id === message.author.id
         }
 
-        message.reply("send the message you would like to schedule")
+        message.reply("send the message you would like to schedule (You hav 60 seconds to send the message).")
         const collector = new MessageCollector(channel, filter,  {
             max: 1,
             time: 60000
@@ -120,4 +120,3 @@ module.exports = {
         })
     }
 }
-    
