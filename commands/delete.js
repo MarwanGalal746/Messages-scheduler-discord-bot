@@ -6,55 +6,8 @@ module.exports = {
     expectedArgs: '<channel tag> <YYYY/MM/DD> <HH:mm> <"AM" or "PM"> <Timezone> <Repetition>',
     minArgs:6,    
     maxArgs:6,
-    init: (client) => { 
-        const checkForPosts = async () => {
-            const query= {
-                date: {
-                    $lte: Date.now()
-                }
-            }
-            let tomDate= new Date();
-            let todDate = new Date();
-            const results = await schMessages.find(query)
-            for(const post of results){
-                tomDate = new Date(post.date)
-                todDate = new Date(post.date)
-                const {guildId, channelId, content} = post
-                console.log(guildId, channelId, content)
-                const guild = await client.guilds.fetch(guildId)
-                if(!guild){
-                    continue
-                }
-                const channel = guild.channels.cache.get(channelId)
-                if(!channel){
-                    continue
-                }
-                channel.send(content)
-            }
-            tomDate.setDate(tomDate.getDate()+1)
-            //console.log(tomDate)
-            const updCond = {
-                    date: {
-                        $lte: todDate
-                    },
-                    repetition:'daily'
-            }
-            const upd = {
-                $set : {date: tomDate}
-            }
-            const option = {
-                multi:true
-            }
-            const del= {
-                date: {
-                    $lte: Date.now()
-                }, repetition: 'no'
-            }
-            await schMessages.deleteMany(del)
-            await schMessages.update(updCond,upd,option)
-            setTimeout(checkForPosts, 10000);
-        } 
-        checkForPosts()
+    init: () => { 
+        
     },
     callback: async ({message, args}) => {
         const {mentions, guild, channel} = message
@@ -81,10 +34,10 @@ module.exports = {
             "YYYY/MM/DD HH:mm A",
             timeZone
         )
-        if(targetDate<Date.now()){
-            message.reply("This date is in the past, please enter a future date.")
-            return
-        }
+        // if(targetDate>Date.now()){
+        //     message.reply("This date isn't in the past, please enter past date.")
+        //     return
+        // }
         //message.reply(rep)
         if(rep!=='no' && rep!=='daily'){    
             message.reply('Please enter a valid rep')
@@ -95,7 +48,7 @@ module.exports = {
             return m.author.id === message.author.id
         }
 
-        message.reply("send the message you would like to schedule")
+        message.reply("send the message that you want to delete.")
         const collector = new MessageCollector(channel, filter,  {
             max: 1,
             time: 60000
@@ -108,16 +61,30 @@ module.exports = {
                 message.reply('You didn\'t reply in time')
                 return
             }
-            message.reply("Your message has been scheduled")
+            //message.reply("Your message has been deleted")
             console.log(collectedMessage.content,guild.id.length,targetChannel.id, typeof(targetChannel.id))
-            await new schMessages({
+            // await new schMessages({
+            //     date:targetDate.valueOf(),
+            //     content: collectedMessage.content,  
+            //     guildId: guild.id,
+            //     channelId: targetChannel.id,
+            //     repetition: rep
+            // }).save()
+            const query={
                 date:targetDate.valueOf(),
                 content: collectedMessage.content,  
                 guildId: guild.id,
                 channelId: targetChannel.id,
-                authorId: message.author.id,
+                authorId:message.author.id,
                 repetition: rep
-            }).save()
+            }
+            const found = await schMessages.exists(query)
+            if(! found){
+                message.reply("You have not schedule this message.")
+            } else {
+                await schMessages.findOneAndDelete(query)
+                message.reply("Your message has been deleted")
+            }
         })
     }
 }

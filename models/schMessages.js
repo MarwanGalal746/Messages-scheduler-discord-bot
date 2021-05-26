@@ -13,6 +13,7 @@ const schMessages = new mongoose.Schema({
     content: reqStr,
     guildId: reqStr,
     channelId: reqStr,
+    authorId: reqStr,
     repetition: reqStr
 })
 
