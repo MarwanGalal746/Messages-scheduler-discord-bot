@@ -10,6 +10,7 @@ module.exports = {
             guildId: guild.id
         }
         await schMessages.deleteMany(query)
+        message.reply('Your ,essages was deleted successfully.')
     }
 }
     
