@@ -11,7 +11,7 @@ module.exports = {
             guildId: guild.id
         }
         await schMessages.deleteMany(query)
-        message.reply('The  scheduled messages of the server were deleted successfully.')
+        message.reply('The  scheduled messages of the server have been deleted successfully.')
     }
 }
     

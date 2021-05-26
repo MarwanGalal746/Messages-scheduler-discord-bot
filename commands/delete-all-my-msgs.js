@@ -11,6 +11,7 @@ module.exports = {
             authorId: message.author.id
         }
         await schMessages.deleteMany(query)
+        messages.reply('Your message have been deleted successfully')
     }
 }
     
