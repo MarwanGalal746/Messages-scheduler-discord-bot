@@ -1,6 +1,7 @@
 const schMessages = require('../models/schMessages.js')
 
 module.exports = {
+    requiredPermissions: ['ADMINISTRATOR'],
     expectedArgs: '',
     minArgs:0,    
     maxArgs:0,
@@ -10,7 +11,7 @@ module.exports = {
             guildId: guild.id
         }
         await schMessages.deleteMany(query)
-        message.reply('Your ,essages was deleted successfully.')
+        message.reply('The  scheduled messages of the server were deleted successfully.')
     }
 }
     

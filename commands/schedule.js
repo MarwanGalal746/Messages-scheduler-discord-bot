@@ -86,7 +86,7 @@ module.exports = {
             return
         }
         if(rep!=='no' && rep!=='daily'){    
-            message.reply('Please enter a valid rep')
+            message.reply('Please enter a valid value, I recommend to type !help to ')
             return
         }
 
