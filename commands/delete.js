@@ -34,11 +34,6 @@ module.exports = {
             "YYYY/MM/DD HH:mm A",
             timeZone
         )
-        // if(targetDate>Date.now()){
-        //     message.reply("This date isn't in the past, please enter past date.")
-        //     return
-        // }
-        //message.reply(rep)
         if(rep!=='no' && rep!=='daily'){    
             message.reply('Please enter a valid rep')
             return
@@ -61,15 +56,7 @@ module.exports = {
                 message.reply('You didn\'t reply in time')
                 return
             }
-            //message.reply("Your message has been deleted")
             console.log(collectedMessage.content,guild.id.length,targetChannel.id, typeof(targetChannel.id))
-            // await new schMessages({
-            //     date:targetDate.valueOf(),
-            //     content: collectedMessage.content,  
-            //     guildId: guild.id,
-            //     channelId: targetChannel.id,
-            //     repetition: rep
-            // }).save()
             const query={
                 date:targetDate.valueOf(),
                 content: collectedMessage.content,  

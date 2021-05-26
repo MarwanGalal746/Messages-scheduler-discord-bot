@@ -85,7 +85,6 @@ module.exports = {
             message.reply("This date is in the past, please enter a future date.")
             return
         }
-        //message.reply(rep)
         if(rep!=='no' && rep!=='daily'){    
             message.reply('Please enter a valid rep')
             return
