@@ -10,7 +10,7 @@
 
 ## :dart: ​Clone the project
 
-​	`$ git clone `
+​	`$ git clone https://github.com/MarwanGalal746/Messages-schedulers-discord-bot`
 
 
 

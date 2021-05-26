@@ -20,7 +20,7 @@ module.exports = {
                 tomDate = new Date(post.date)
                 todDate = new Date(post.date)
                 const {guildId, channelId, content} = post
-                console.log(guildId, channelId, content)
+                //console.log(guildId, channelId, content)
                 const guild = await client.guilds.fetch(guildId)
                 if(!guild){
                     continue
@@ -107,14 +107,15 @@ module.exports = {
                 return
             }
             message.reply("Your message has been scheduled")
-            console.log(collectedMessage.content,guild.id.length,targetChannel.id, typeof(targetChannel.id))
+            //console.log(collectedMessage.content,guild.id.length,targetChannel.id, typeof(targetChannel.id))
             await new schMessages({
                 date:targetDate.valueOf(),
                 content: collectedMessage.content,  
                 guildId: guild.id,
                 channelId: targetChannel.id,
                 authorId: message.author.id,
-                repetition: rep
+                repetition: rep,
+                username: message.author.username
             }).save()
         })
     }

@@ -14,7 +14,8 @@ const schMessages = new mongoose.Schema({
     guildId: reqStr,
     channelId: reqStr,
     authorId: reqStr,
-    repetition: reqStr
+    repetition: reqStr,
+    username:reqStr
 })
 
 const name = 'scheduled-messages'
