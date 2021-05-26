@@ -32,7 +32,6 @@ module.exports = {
                 channel.send(content)
             }
             tomDate.setDate(tomDate.getDate()+1)
-            //console.log(tomDate)
             const updCond = {
                     date: {
                         $lte: todDate
