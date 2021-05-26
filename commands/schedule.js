@@ -14,8 +14,12 @@ module.exports = {
                 }
             }
             //console.log('hello')
+            let tomDate= new Date();
+            let todDate = new Date();
             const results = await schMessages.find(query)
             for(const post of results){
+                tomDate = new Date(post.date)
+                todDate = new Date(post.date)
                 const {guildId, channelId, content} = post
                 console.log(guildId, channelId, content)
                 const guild = await client.guilds.fetch(guildId)
@@ -28,8 +32,27 @@ module.exports = {
                 }
                 channel.send(content)
             }
-
-            await schMessages.deleteMany(query)
+            tomDate.setDate(tomDate.getDate()+1)
+            //console.log(tomDate)
+            const updCond = {
+                    date: {
+                        $lte: todDate
+                    },
+                    repetition:'daily'
+            }
+            const upd = {
+                $set : {date: tomDate}
+            }
+            const option = {
+                multi:true
+            }
+            const del= {
+                date: {
+                    $lte: Date.now()
+                }, repetition: 'no'
+            }
+            await schMessages.deleteMany(del)
+            await schMessages.update(updCond,upd,option)
             setTimeout(checkForPosts, 10000);
         } 
         checkForPosts()
@@ -94,3 +117,4 @@ module.exports = {
         })
     }
 }
+    
